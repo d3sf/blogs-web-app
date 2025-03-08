@@ -1,0 +1,42 @@
+testDB
+http://localhost:3000/api/testdb
+
+
+base - 
+http://localhost:3000
+
+signin - 
+http://localhost:3000/api/auth/signin
+http://localhost:3000/api/auth/callback/credentials
+http://localhost:3000/signin
+
+
+
+signup - 
+http://localhost:3000/api/auth/signup
+
+blogs - create blogs
+http://localhost:3000/api/blogs/create
+
+blogs - fetch blogs
+http://localhost:3000/api/blogs/
+
+
+blogs - fetch a single blog with id params
+http://localhost:3000/api/blogs/{blogId}
+
+
+blogs- fetch blogs from a particular user
+http://localhost:3000/api/blogs/user/67cc09e6002fdfc687bed78d
+      const res = await fetch(`/api/blogs?page=${page}&limit=5`);
+
+
+
+FRONTEND 
+
+blogs - return all blogs 
+http://localhost:3000/blogs
+
+
+signin - 
+http://localhost:3000/api/auth/signin
