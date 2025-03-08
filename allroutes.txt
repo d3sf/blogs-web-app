@@ -40,3 +40,12 @@ http://localhost:3000/blogs
 
 signin - 
 http://localhost:3000/api/auth/signin
+
+signup  -
+http://localhost:3000/signup
+
+
+
+
+one@gmail.com
+password
