@@ -38,8 +38,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 ## .env keys
+```
 MONGODB_URI=""
 GOOGLE_CLIENT_ID=""
 GOOGLE_CLIENT_SECRET=""
 NEXTAUTH_SECRET=""
 NEXTAUTH_URL=""
+```
