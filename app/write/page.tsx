@@ -1,82 +1,50 @@
-"use client";
+"use client"
 
-import { use, useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-
+import { useState } from "react";
+import SvgIconUse from "../components/ui/SvgIconUse";
+import BlogEditor from "./components/BlogEditor";
+import Toolbar from "./components/Toolbar";
 
 const WriteBlog = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const router = useRouter();
-
-    const handleSaveDraft = async () => {
-        try {
-            const response = await axios.post("/api/blogs", {
-                title,
-                content,
-                status: "draft",
-            });
-
-            alert("Blog saved as draft!");
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error saving draft:", error);
-            alert("Failed to save draft.");
-        }
-    };
-
-    const handlePublish = async () => {
-        try {
-            const response = await axios.post("/api/blogs/create", {
-                title,
-                content,
-                status: "published",
-            });
-
-            alert("Blog published successfully!");
-            router.push("/blogs");
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error publishing blog:", error);
-            alert("Failed to publish blog.");
-        }
-    };
+    const [focusedField, setFocusedField] = useState<"title" | "content" | null>(null);
 
     return (
-        <div className="min-h-screen flex justify-center items-center p-4">
-            <div className="w-full max-w-2xl bg-white shadow-lg rounded-lg p-6">
-                <h1 className="text-2xl font-bold mb-4">Write a Blog</h1>
+        <div className="mt-7 flex justify-center">
+            <div className="w-full max-w-2xl relative">
+                {/* Icon Positioning */}
+                <div className="absolute left-[-40px] top-2 transition-opacity duration-200">
+                    {focusedField && <SvgIconUse />}
+                </div>
+                <div className="flex ">
+                <Toolbar></Toolbar>
+                <BlogEditor></BlogEditor>
+                </div>
+                {/* Title Input */}
+                <div className="flex items-center gap-4 mb-4 border-b border-gray-300">
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        onFocus={() => setFocusedField("title")}
+                        onBlur={() => setFocusedField(null)}
+                        className="w-full text-4xl font-bold font-serif outline-none"
+                    />
+                </div>
 
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="w-full border border-gray-300 p-2 rounded-md mb-4"
-                />
-
-                <textarea
-                    placeholder="Write your blog content here..."
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    className="w-full border border-gray-300 p-2 rounded-md h-40 mb-4"
-                />
-
-                <div className="flex justify-between">
-                    <button
-                        onClick={handleSaveDraft}
-                        className="px-4 py-2 bg-gray-500 text-white rounded-md"
-                    >
-                        Save as Draft
-                    </button>
-
-                    <button
-                        onClick={handlePublish}
-                        className="px-4 py-2 bg-customPink text-white rounded-md"
-                    >
-                        Publish
-                    </button>
+                {/* Content Input */}
+                <div className="flex items-center gap-4 ">
+                    <input
+                        type="text"
+                        placeholder="Share your thoughts..."
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                        onFocus={() => setFocusedField("content")}
+                        onBlur={() => setFocusedField(null)}
+                        className="w-full font-serif text-lg outline-none"
+                    />
                 </div>
             </div>
         </div>
