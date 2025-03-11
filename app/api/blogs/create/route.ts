@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         }
 
         await connectToDB();
-
+        //@ts-expect-error
         const user = await User.findOne({ email: session.user.email });
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });

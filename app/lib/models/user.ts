@@ -1,4 +1,12 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import { Document, Schema, model, models } from "mongoose";
+
+interface IUser extends Document{
+  name: string, 
+  email: string, 
+  password?: string,
+  image?: string
+}
+
 
 const UserSchema = new Schema(
   {
@@ -10,5 +18,5 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-const User = models.User || model("User", UserSchema);
+const User = models.User || model<IUser>("User", UserSchema);
 export default User;

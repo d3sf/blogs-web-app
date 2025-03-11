@@ -15,6 +15,7 @@ export async function GET(req: Request) {
         const skip = (page - 1) * limit;
 
         // Fetch the blogs from the database
+        //@ts-expect-error
         const blogs = await Blog.find({},"title description author createdAt")
             .populate("author", "name email")
             .skip(skip)

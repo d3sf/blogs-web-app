@@ -8,7 +8,9 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request, { params }: { params: { userId: string } }) {
     try {
         await connectToDB();
-        const blogs = await Blog.find({ author: params.userId }).populate("author", "name email");
+        //@ts-expect-error
+        const blogs = await Blog.find({ author: params.userId });
+        await Blog.populate(blogs, { path: "author", select: "name email" });
 
         if (!blogs.length) {
             return NextResponse.json({ error: "No blogs found for this user" }, { status: 404 });

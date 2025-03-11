@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import { log } from "console";
+
 import { NextRequest, NextResponse } from "next/server";
 
 // Configure Cloudinary

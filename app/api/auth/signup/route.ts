@@ -13,8 +13,9 @@ export async function POST(req: Request) {
         }
 
         await connectToDB();
-        const exisitngUser = await User.findOne({ email });
-        if (exisitngUser) {
+        //@ts-expect-error
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
             return NextResponse.json({ error: "Email already in use" }, { status: 400 });
         }
 

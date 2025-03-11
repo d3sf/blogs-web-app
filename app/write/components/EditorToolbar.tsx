@@ -47,7 +47,7 @@ const EditorToolbar = ({ editor, position, isVisible }: ToolbarProps) => {
             let errorData;
             try {
               errorData = JSON.parse(errorText);
-            } catch (e) {
+            } catch (error) {
               errorData = { error: errorText };
             }
             

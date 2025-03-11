@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Spinner from "../components/Spinner";
-import Navbar from "../components/Navbar";
+
 
 const BlogsPage = () => {
   const [blogs, setBlogs] = useState<

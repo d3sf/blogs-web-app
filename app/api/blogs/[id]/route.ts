@@ -6,12 +6,14 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import User from "@/app/lib/models/user";
 
 // Using async for the params extraction directly in the handler, no need to "await" params explicitly
+
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     try {
         const { id } = await params;  // Accessing params directly, no need to await.
 
         await connectToDB();
-        const blog = await Blog.findById(id).populate("author", "name email image");
+        //@ts-expect-error
+        const blog = await Blog.findById(id).populate("author", "name email image") ;
 
         if (!blog) {
             return NextResponse.json({ error: "Blog not found" }, { status: 404 });
@@ -37,12 +39,14 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         await connectToDB();
 
         // Find the blog
+        //@ts-expect-error
         const blog = await Blog.findById(id);
         if (!blog) {
             return NextResponse.json({ error: "Blog not found" }, { status: 404 });
         }
 
         // Get the logged-in user
+        //@ts-expect-error
         const user = await User.findOne({ email: session.user.email });
 
         // Check if the logged-in user is the author
@@ -51,6 +55,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         }
 
         // Delete the blog
+        //@ts-expect-error
         await Blog.findByIdAndDelete(id);
 
         return NextResponse.json({ message: "Blog deleted successfully" }, { status: 200 });
@@ -73,12 +78,14 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         await connectToDB();
 
         // Find the blog
+        //@ts-expect-error
         const blog = await Blog.findById(id);
         if (!blog) {
             return NextResponse.json({ error: "Blog not found" }, { status: 404 });
         }
 
         // Get the logged-in user
+        //@ts-expect-error
         const user = await User.findOne({ email: session.user.email });
 
         // Check if the logged-in user is the author

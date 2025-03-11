@@ -1,14 +1,12 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { redirect } from "next/dist/server/api-utils";
-import { signIn } from "next-auth/react";
+
 import { connectToDB } from "@/app/lib/db";
 import User from "@/app/lib/models/user";
 import bcrypt from "bcryptjs";
-import { pages } from "next/dist/build/templates/app-page";
 
-export const authOptions = {
+export const authOptions:NextAuthOptions  = {
   providers: [
 
     CredentialsProvider({
@@ -21,6 +19,8 @@ export const authOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Missing email or password");
         }
+        //@ts-expect-error
+
         const user = await User.findOne({ email: credentials.email }).select("+password");
         if (!user) {
           throw new Error("User not found !");
@@ -56,6 +56,7 @@ export const authOptions = {
 
 
           //check if the user exists
+          //@ts-expect-error
           let existingUser = await User.findOne({ email: user.email });
           if (!existingUser) {
             // create and save user

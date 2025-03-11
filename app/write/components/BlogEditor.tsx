@@ -24,7 +24,7 @@ const BlogEditor = ({setContent}:{setContent:(content:any)=> void}) => {
     setIsMounted(true);
   }, []);
 
-  // @ts-ignore
+  //@ts-expect-error
   const editor = useEditor({
     extensions: [
       StarterKit,
