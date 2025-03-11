@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "./components/Navbar";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "sonner"; // Import Sonner
 
 export default function RootLayout({
   children,
@@ -17,10 +18,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body      >
+      <body   className=""  >
      
       <SessionProvider>
-      {!hideNavbar && <Navbar />}
+      {!hideNavbar && <Navbar />} 
+      <Toaster position="bottom-center"></Toaster>
         {children}
       </SessionProvider>
       </body>

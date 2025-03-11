@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 
 const BlogsPage = () => {
   const [blogs, setBlogs] = useState<
-    { _id: string; title: string; content: string; author: { name: string }; createdAt: string }[]
+    { _id: string; title: string; description:string; content: string; author: { name: string }; createdAt: string }[]
   >([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -87,15 +87,18 @@ const BlogsPage = () => {
                         <h2 className="text-xl font-bold hover:text-customPink mb-2">{blog.title}</h2>
                       </Link>
 
-                      <p className="text-gray-600">{blog.content.substring(0, 350)}...</p>
-
+                      {/* <p className="text-gray-600">{blog.description.substring(0, 350)}...</p> */}
+                      <p className="text-gray-600">{blog.description}...</p>
+                     
                       <p className="text-sm text-gray-500 mt-2">
                         <span className="flex gap-4 mt-3 mb-8">
                           <span>By {blog.author.name}</span> •
                           <span className="font-mono">{formattedDate}</span>
                         </span>
                       </p>
+                  
                     </div>
+                    
                   );
                 })}
               </div>

@@ -87,10 +87,11 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         }
 
         // Update the blog
-        const { title, content } = await req.json();
+        const { title, description, content } = await req.json();
 
         // update the blog fields
         blog.title = title || blog.title;
+        blog.description = description || blog.description;  // Added description update
         blog.content = content || blog.content;
 
         await blog.save();
