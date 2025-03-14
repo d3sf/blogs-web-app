@@ -4,6 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -46,9 +47,9 @@ const SignUpPage = () => {
         {/* Redirect to Sign In */}
         <p className="text-center text-gray-600 text-sm mb-4">
           Already have an account?{" "}
-          <a href="/signin" className="text-customPink hover:underline">
+          <Link href="/signin" className="text-customPink hover:underline">
             Sign in
-          </a>
+          </Link>
         </p>
 
         {/* Signup Form */}

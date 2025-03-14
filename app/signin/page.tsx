@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { getProviders, signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
 
 const SignInPage = () => {
     const [providers, setProviders] = useState<any>(null);
@@ -47,9 +48,9 @@ const SignInPage = () => {
                 {/* Redirect to Sign Up */}
                 <p className="text-center text-gray-600 text-sm mb-4">
                     Don't have an account?{" "}
-                    <a href="/signup" className="text-customPink hover:underline">
+                    <Link href="/signup" className="text-customPink hover:underline">
                         Sign up
-                    </a>
+                    </Link>
                 </p>
 
                 {/* Email/Password Form */}
