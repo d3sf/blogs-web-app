@@ -31,7 +31,7 @@ const SignInPage = () => {
             console.error("Sign-in error:", result.error);
             alert("Invalid email or password"); // Show error
         } else {
-            window.location.href = "/blogs"; // Manually handle redirection
+            window.location.href = "/"; // Manually handle redirection
         }
     };
 
@@ -81,7 +81,7 @@ const SignInPage = () => {
                 {/* Sign in with Google */}
                 {providers && providers.google && (
                     <button
-                        onClick={() => signIn("google", { callbackUrl: "/blogs" })}
+                        onClick={() => signIn("google", { callbackUrl: "/" })}
                         className="w-full flex items-center justify-center gap-3 bg-white border border-gray-800 text-black p-3 rounded-md hover:bg-gray-100"
                     >
                         <FcGoogle className="text-2xl" />

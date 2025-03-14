@@ -91,7 +91,7 @@ const SignUpPage = () => {
 
         {/* Sign Up with Google */}
         <button
-          onClick={() => signIn("google", { callbackUrl: "/blogs" })}
+          onClick={() => signIn("google", { callbackUrl: "/" })}
           className="w-full flex bg-white border border-gray-800 text-black rounded-md p-3 items-center justify-center gap-3 hover:bg-gray-100"
         >
           <FcGoogle className="text-2xl" />

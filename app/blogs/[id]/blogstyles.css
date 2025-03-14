@@ -11,7 +11,8 @@
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 10px 0;
+  margin: auto;
+  justify-items: center;
 }
 
 /* .blog-content img:hover {
@@ -57,7 +58,6 @@
 
 
 /* Glassmorphism effect for code blocks */
-
 
 
 

@@ -5,8 +5,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDB } from "@/app/lib/db";
 import User from "@/app/lib/models/user";
 import bcrypt from "bcryptjs";
+import { generateUsername } from "@/app/lib/generateUsername";
 
-export const authOptions:NextAuthOptions  = {
+export const authOptions: NextAuthOptions = {
   providers: [
 
     CredentialsProvider({
@@ -31,7 +32,13 @@ export const authOptions:NextAuthOptions  = {
           throw new Error("Invalid credentials");
         }
 
-        return { id: user.id, name: user.name, email: user.email, image: user.image };
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+          username: user.username,
+        };
         // or user.password = undefined;
         // return user;
       },
@@ -60,11 +67,13 @@ export const authOptions:NextAuthOptions  = {
           let existingUser = await User.findOne({ email: user.email });
           if (!existingUser) {
             // create and save user
+            const username = await generateUsername(user.email);
             existingUser = new User({
               name: user.name,
               email: user.email,
               image: user.image,
               password: "",//no password for google users
+              username: username,
             })
             await existingUser.save();
           }
@@ -72,10 +81,19 @@ export const authOptions:NextAuthOptions  = {
         return true;
       }
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+         // ✅ Ensure username is set
+      }
+      return token;
+    },
     async session({ session, token }: { session: any; token: any }) {
       session.user.id = token.sub;
+      
       return session;
     },
+    
     // async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
     //   if(url === baseUrl || url.startsWith("/api/auth")) {
     //     return baseUrl;
@@ -86,7 +104,7 @@ export const authOptions:NextAuthOptions  = {
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       if (url.startsWith("/")) return `${baseUrl}${url}`; // Convert relative to absolute URL
       if (url === baseUrl || url.startsWith("/api/auth")) return baseUrl; // Handle auth routes properly
-      return `${baseUrl}/blogs`; // Ensure correct redirection
+      return `${baseUrl}/`; // Ensure correct redirection
     }
 
   },

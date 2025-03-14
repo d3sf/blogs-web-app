@@ -12,7 +12,6 @@ const CreateBlog = () => {
     const [content, setContent] = useState<any>(null); // Store editor content
     const [focusedField, setFocusedField] = useState<"title" | "content" | "description" | null>(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const titleRef = useRef<HTMLTextAreaElement>(null!);
     const descriptionRef = useRef<HTMLTextAreaElement>(null!);
     const router = useRouter(); // Router for redirection
@@ -37,12 +36,10 @@ const CreateBlog = () => {
     const handleSave = async () => {
         if (!title.trim() || !description.trim() || !content) {
             toast.warning('Title, description, and content are required')
-            setError("Title, description, and content are required");
             return; // Prevent further execution
         }
 
         setLoading(true);
-        setError(null);
 
         try {
             const res = await axios.post("/api/blogs/create", { title, description, content });
@@ -60,7 +57,7 @@ const CreateBlog = () => {
             }, 2000); // Redirect after 2 seconds
         } catch (error) {
             console.error("Error saving blog:", error);
-            setError("Failed to save Blog, something went wrong");
+            toast.warning("Failed to save Blog, something went wrong");
         } finally {
             setLoading(false);
         }
@@ -121,7 +118,7 @@ const CreateBlog = () => {
                 </button>
 
                 {/* Error Message */}
-                {error && <p className="text-red-500 mt-2">{error}</p>}
+                
             </div>
         </div>
     );

@@ -7,9 +7,11 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request, { params }: { params: { userId: string } }) {
     try {
+        const { userId } = await params;
+
         await connectToDB();
         //@ts-expect-error
-        const blogs = await Blog.find({ author: params.userId });
+        const blogs = await Blog.find({ author: userId });
         await Blog.populate(blogs, { path: "author", select: "name email" });
 
         if (!blogs.length) {

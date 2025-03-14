@@ -27,8 +27,41 @@ http://localhost:3000/api/blogs/{blogId}
 
 
 blogs- fetch blogs from a particular user
-http://localhost:3000/api/blogs/user/67cc09e6002fdfc687bed78d
-      const res = await fetch(`/api/blogs?page=${page}&limit=5`);
+http://localhost:3000/api/blogs/user/67d08b94f7cfda54bc4eb394
+const res = await fetch(`/api/blogs?page=${page}&limit=5`);
+
+
+
+
+Users
+http://localhost:3000/api/user/me
+- get user data 
+{
+  "_id": "",
+  "name": " ",
+  "email": ",
+  "image": "",
+  "username": ""
+}
+
+
+
+http://localhost:3000/api/user/johnwick
+http://localhost:3000/api/user/{username}
+
+
+{
+  "_id": "67d2cae04b3d737a71a10abc",
+  "name": "Thomas Shelby ",
+  "email": "johnwick@gmail.com",
+  "username": "johnwick",
+  "createdAt": "2025-03-13T12:09:04.613Z",
+  "updatedAt": "2025-03-13T15:49:25.760Z",
+  "__v": 0,
+  "about": "Peaky Blinders"
+}
+
+
 
 
 
@@ -36,6 +69,8 @@ FRONTEND
 
 blogs - return all blogs 
 http://localhost:3000/blogs
+is now 
+http://localhost:3000/
 
 
 signin - 

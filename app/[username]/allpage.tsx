@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Spinner from "../components/Spinner";
+
+// import Navbar from "../components/Navbar";
 
 
 const BlogsPage = () => {
@@ -14,8 +16,8 @@ const BlogsPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [initialLoading, setInitialLoading] = useState(true); // Track initial load
 
-  // Fetch blogs from API
-  const fetchBlogs = async () => {
+  // Fetch blogs from API - using useCallback to memoize the function
+  const fetchBlogs = useCallback(async () => {
     if (!hasMore || loading) return; // Prevent multiple fetch calls
 
     setLoading(true);
@@ -31,7 +33,7 @@ const BlogsPage = () => {
       } else {
         setBlogs((prev) => {
           const newBlogs = data.blogs.filter(
-            (blog: any) => !prev.some((b) => b._id === blog._id)
+            (blog: { _id: string; title: string; description:string; content: string; author: { name: string }; createdAt: string }) => !prev.some((b) => b._id === blog._id)
           ); // Prevent duplicates
           return [...prev, ...newBlogs];
         });
@@ -44,21 +46,20 @@ const BlogsPage = () => {
 
     setLoading(false);
     setInitialLoading(false); // Mark initial load as complete
-  };
+  }, [hasMore, loading, page]); // Dependencies that the function uses
 
-  // Fetch blogs on initial render (ONLY ONCE)
+  // Fetch blogs on initial render with proper dependency
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [fetchBlogs]); // Now correctly includes fetchBlogs as dependency
 
   return (
     <div>
-    
       <div className="p-8">
         <h1 className="text-3xl font-bold mb-4 flex justify-center"></h1>
 
-        {/* Error Message */}
-        {/* {error && <p className="text-red-500 text-center">{error}</p>} */}
+        {/* Error Message - Uncommented to use the error state */}
+        {error && <p className="text-red-500 text-center">{error}</p>}
 
         {/* Show Spinner for Initial Load */}
         {initialLoading ? (
@@ -96,21 +97,18 @@ const BlogsPage = () => {
                           <span className="font-mono">{formattedDate}</span>
                         </span>
                       </p>
-                  
                     </div>
-                    
                   );
                 })}
               </div>
             )}
-  
+
             {/* Loading Spinner */}
             {loading && blogs.length > 0 && (
-              <Spinner></Spinner>
+              <Spinner />
             )}
             {/* Load More Button (only shows after initial load) */}
             {!initialLoading && hasMore && (
-
               <button
                 onClick={fetchBlogs}
                 className="font-bold mt-8 hover:text-customPink text-xl flex items-center gap-2"
