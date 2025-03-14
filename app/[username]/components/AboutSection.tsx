@@ -10,7 +10,7 @@ const AboutSection = ({ about }: { about: string }) => {
                 <User className="text-blue-600" size={20} />
                 <h2 className="text-lg font-semibold">About</h2>
             </div>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-700 text-sm whitespace-pre-line">
 
                 {about} 
 

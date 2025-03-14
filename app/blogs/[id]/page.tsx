@@ -11,6 +11,7 @@ import Image from "@tiptap/extension-image"; // Import Image extension
 // import { CustomExtensions } from "@/app/components/ui/customExtensions";
 
 import "./blogstyles.css"
+import Link from "@tiptap/extension-link";
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ const BlogDetailsPage = () => {
 
   // ✅ Ensure blog.content exists before using generateHTML
   const formattedContent = blog?.content
-    ? generateHTML(blog.content, [defaultExtensions,Image,StarterKit])
+    ? generateHTML(blog.content, [defaultExtensions,Image,StarterKit,Link])
     : "<p>No content available</p>"; // Default message if content is missing
     console.log("Generated HTML:", formattedContent);
 

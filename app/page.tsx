@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import Spinner from "./components/Spinner";
@@ -80,13 +80,13 @@ const BlogsPage = () => {
                     </Link>
                     <p className="text-gray-600">{blog.description}...</p>
                     <div className="text-sm text-gray-500 mt-2">
-                      <div className="flex items-start gap-1 mt-3 mb-8">
-                        
+                      <div className="flex items-start gap-2 mt-3 mb-8">
+
                         <img src={blog.author.image || '/images/defaultAvatar.png'} alt=""
                           className=" rounded-full h-5"
                         ></img>
-                        <span>{blog.author.name}</span> •
-                        <span className="font-mono">{formattedDate}</span>
+                        <span className="font-sans">{blog.author.name}</span> •
+                        <span className="font-sans">{formattedDate}</span>
                       </div>
                     </div>
                     <hr className="border-t border-gray-300" />
@@ -103,7 +103,7 @@ const BlogsPage = () => {
           {!initialLoading && hasMore && (
             <button
               onClick={fetchBlogs}
-              className="font-bold mt-8 hover:text-customPink text-xl flex items-center gap-2"
+              className=" mt-8 text-customPink text-md flex items-center gap-2"
               disabled={loading}
             >
               Read More

@@ -5,15 +5,19 @@ import EditProfileModal from "./EditProfileModal";
 
 import { Calendar } from 'lucide-react';
 import { formattedMonthYear } from "@/app/components/utility/formattedTime";
+import { useSession } from "next-auth/react";
 
 
 const ProfileHeader = ({ user, setUser }) => {
 
+    const {data:session} = useSession();//get the authenticated user
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isHovering, setIsHovering] = useState(false);
+    // const [isHovering, setIsHovering] = useState(false);
     // const fileInputRef = useRef(null);
     const date = formattedMonthYear(user.createdAt);
-    
+    const isOwner = session?.user?.email === user.email;
+    // console.log(user)
+
     // const handleFileChange =async (event)=>{
     //     const file = event.target.files[0];
     //     if (!file) return;
@@ -38,23 +42,23 @@ const ProfileHeader = ({ user, setUser }) => {
                     // onMouseLeave={()=>{}}
                     >
                         {/* ✅ Profile Image in Circle */}
-                        <img
+                        <img   
                             src={user?.image || "/images/defaultAvatar.png"} // Use default if no image
                             alt={user?.name}
                             className="w-28 h-28 rounded-full border-4 border-gray-300 object-cover"
                         />
                     </div>
-                    <div className="mt-8">
+                    <div className="mt-12">
+                        
                         <div className="text-2xl font-bold">
                             {user.name}
                             {/* {
                                 name.toUpperCase()
                             } */}
                         </div>
-                        <h2 className="text-gray-600 text-sm ml-1">
-
+                        {/* <h2 className="text-gray-600 text-sm ml-1">
                             @{user.username}
-                        </h2>
+                        </h2> */}
                         <div className="text-gray-600 text-xs border border-gray-600 rounded-full mt-2  inline-flex items-start text-[10px] px-1 ">
                             {/* {user.createdAt} */}
                             <Calendar size={14} ></Calendar>
@@ -67,7 +71,9 @@ const ProfileHeader = ({ user, setUser }) => {
 
                     </div>
                 </div>
-                <div>
+              {
+                isOwner && (
+                    <div>
                     <button
                         className=" text-green-500 hover:text-green-600  px-4 py-2 rounded-md text-xs mt-20"
                         onClick={() => setIsModalOpen(true)}
@@ -80,6 +86,8 @@ const ProfileHeader = ({ user, setUser }) => {
                         setUser={setUser}
                         onClose={() => setIsModalOpen(false)} />}
                 </div>
+                )
+              }
             </div>
 
         </div>

@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react";
+import {  useState } from "react";
 import { toast } from "sonner";
 
 const EditProfileModal = ({ user, setUser, onClose }) => {
   const [name, setName] = useState(user?.name || ""); // ✅ Pre-fill name
   const [about, setAbout] = useState(user?.about || ""); // ✅ Pre-fill about
+ 
   const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
@@ -23,7 +24,7 @@ const EditProfileModal = ({ user, setUser, onClose }) => {
         throw new Error("Failed to update profile");
       }
       const updatedUser = await res.json();
-
+      
       // ✅ Update user state in ProfilePage
       setUser((prevUser) => ({ ...prevUser, name: updatedUser.name, about: updatedUser.about }));
 
@@ -38,14 +39,14 @@ const EditProfileModal = ({ user, setUser, onClose }) => {
     }
   };
 
+
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50
-    
-    
-      
+   
     ">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96
-      h-[50%]  bg-white-500  border border-black
+      h-[50%]  bg-white-500  border border-black  min-h-96
       ">
         <p className="text-md text-black mb-4 font-thin">Profile Information</p>
         {/* ✅ Name Input */}
@@ -72,7 +73,7 @@ const EditProfileModal = ({ user, setUser, onClose }) => {
         <textarea
           value={about}
           onChange={(e) => setAbout(e.target.value)}
-          className="w-full border p-2 rounded-md mb-3 min-h-32"
+          className="w-full border p-2 rounded-md mb-3 min-h-32  resize-none whitespace-pre-line"
           placeholder="Tell us about yourself"
         />
 

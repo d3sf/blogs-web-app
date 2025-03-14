@@ -16,7 +16,7 @@ export async function GET() {
     
     // Find user by email instead of ID
     //@ts-expect-error
-    const user = await User.findOne({ email: session.user.email }).select("username name image email");
+    const user = await User.findOne({ email: session.user.email }).select("username name image ");
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
