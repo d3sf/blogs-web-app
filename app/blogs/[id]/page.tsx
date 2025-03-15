@@ -11,7 +11,8 @@ import Image from "@tiptap/extension-image"; // Import Image extension
 // import { CustomExtensions } from "@/app/components/ui/customExtensions";
 
 import "./blogstyles.css"
-import Link from "@tiptap/extension-link";
+import TipTapLink from "@tiptap/extension-link";
+import Link from "next/link";
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
@@ -49,7 +50,7 @@ const BlogDetailsPage = () => {
 
   // ✅ Ensure blog.content exists before using generateHTML
   const formattedContent = blog?.content
-    ? generateHTML(blog.content, [defaultExtensions,Image,StarterKit,Link])
+    ? generateHTML(blog.content, [defaultExtensions,Image,StarterKit,TipTapLink])
     : "<p>No content available</p>"; // Default message if content is missing
     console.log("Generated HTML:", formattedContent);
 
@@ -73,13 +74,19 @@ const BlogDetailsPage = () => {
           <p>{blog.description}</p>
         </div>
         <div className="flex items-center gap-4 mt-4">
+        <Link href={`/${blog.author.username}`} >
           <img
             src={blog.author.image || "/images/defaultAvatar.png"}
             alt={blog.author.name}
             className="w-12 h-12 rounded-full border border-gray-300"
           />
+           </Link>
           <div>
+          {/* {JSON.stringify(blog.author)}   */}
+          <Link href={`/${blog.author.username}`} className="hover:underline">
             <p className="font-semibold">{blog.author.name}</p>
+          </Link>
+            
             <p className="text-gray-500 text-xs">{readTime} min read</p>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { connectToDB } from "@/app/lib/db";
 import User from "@/app/lib/models/user";
 import bcrypt from "bcryptjs";
 import { generateUsername } from "@/app/lib/generateUsername";
+import { imageUpload } from "@/app/components/utility/imageUpload";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -65,8 +66,11 @@ export const authOptions: NextAuthOptions = {
           //check if the user exists
           //@ts-expect-error
           let existingUser = await User.findOne({ email: user.email });
+          
           if (!existingUser) {
             // create and save user
+            // Upload Google profile image to Cloudinary
+            // const cloudinaryUrl = await imageUpload("profile_images", undefined, user.image);
             const username = await generateUsername(user.email);
             existingUser = new User({
               name: user.name,
@@ -84,16 +88,16 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-         // ✅ Ensure username is set
+        // ✅ Ensure username is set
       }
       return token;
     },
     async session({ session, token }: { session: any; token: any }) {
       session.user.id = token.sub;
-      
+
       return session;
     },
-    
+
     // async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
     //   if(url === baseUrl || url.startsWith("/api/auth")) {
     //     return baseUrl;

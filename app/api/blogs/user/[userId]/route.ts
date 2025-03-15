@@ -18,7 +18,7 @@ export async function GET(req: Request, { params }: { params: { userId: string }
             .sort({ createdAt: -1 }) // Sort by latest blogs first
             .skip(skip)
             .limit(limit)
-            .populate("author", "name email");
+            .populate("author", "name email username");
 
         const totalBlogs = await Blog.countDocuments({ author: userId });
 

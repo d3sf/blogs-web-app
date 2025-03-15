@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import Spinner from "./components/Spinner";
@@ -27,7 +28,9 @@ const BlogsPage = () => {
         setHasMore(false);
       } else {
         setBlogs((prev) => {
-          const newBlogs = data.blogs.filter((blog) => !prev.some((b) => b._id === blog._id));
+          const newBlogs = data.blogs.filter(
+            (blog) => !prev.some((b) => b._id === blog._id)
+          );
           return [...prev, ...newBlogs];
         });
         setPage((prev) => prev + 1);
@@ -48,22 +51,21 @@ const BlogsPage = () => {
   }, []);
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4 flex justify-center"></h1>
+    <div className="max-w-3xl mx-auto p-6 md:p-10">
+      <h1 className="text-3xl font-bold text-center mb-6">Latest Blogs</h1>
 
-      {/* Error Message */}
-      {error && <p className="text-red-500 text-center">{error}</p>}
+      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-      {/* Show Spinner for Initial Load */}
       {initialLoading ? (
-        <Spinner />
+        <div className="flex justify-center mt-10">
+          <Spinner />
+        </div>
       ) : (
-        <div className="max-w-2xl mx-auto">
-          {/* Display Blogs */}
+        <div>
           {blogs.length === 0 ? (
-            <p className="text-center">No blogs available</p>
+            <p className="text-center text-gray-500">No blogs available</p>
           ) : (
-            <div className="grid gap-6">
+            <div className="space-y-6">
               {blogs.map((blog) => {
                 const formattedDate = new Date(blog.createdAt)
                   .toLocaleDateString("en-US", {
@@ -74,40 +76,54 @@ const BlogsPage = () => {
                   .replace(",", "");
 
                 return (
-                  <div key={blog._id}>
+                  <div
+                    key={blog._id}
+                    className="p-6 bg-white rounded-lg shadow-md"
+                  >
                     <Link href={`/blogs/${blog._id}`}>
-                      <h2 className="text-xl font-bold hover:text-customPink mb-2">{blog.title}</h2>
+                      <h2 className="text-xl font-semibold text-gray-800 hover:text-customPink transition duration-300">
+                        {blog.title}
+                      </h2>
                     </Link>
-                    <p className="text-gray-600">{blog.description}...</p>
-                    <div className="text-sm text-gray-500 mt-2">
-                      <div className="flex items-start gap-2 mt-3 mb-8">
+                    <p className="text-gray-600 mt-2">{blog.description}...</p>
+                    <div className="flex items-center text-sm text-gray-500 mt-4">
+                      <Link href={`/${blog.author.username}`}>
+                        <img
+                          src={blog.author.image || "/images/defaultAvatar.png"}
+                          alt="Author"
+                          className="w-6 h-6 rounded-full mr-2"
+                        />
+                      </Link>
 
-                        <img src={blog.author.image || '/images/defaultAvatar.png'} alt=""
-                          className=" rounded-full h-5"
-                        ></img>
-                        <span className="font-sans">{blog.author.name}</span> •
-                        <span className="font-sans">{formattedDate}</span>
-                      </div>
+                      {/* {JSON.stringify(blog.author)} */}
+                      <Link href={`/${blog.author.username}`} className="hover:underline">
+                        <span className="font-medium">{blog.author.name}</span>
+                      </Link>
+                      <span className="mx-2">•</span>
+                      <span>{formattedDate}</span>
                     </div>
-                    <hr className="border-t border-gray-300" />
                   </div>
                 );
               })}
             </div>
           )}
 
-          {/* Loading Spinner */}
-          {loading && blogs.length > 0 && <Spinner />}
+          {loading && blogs.length > 0 && (
+            <div className="flex justify-center mt-6">
+              <Spinner />
+            </div>
+          )}
 
-          {/* Load More Button */}
           {!initialLoading && hasMore && (
-            <button
-              onClick={fetchBlogs}
-              className=" mt-8 text-customPink text-md flex items-center gap-2"
-              disabled={loading}
-            >
-              Read More
-            </button>
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={fetchBlogs}
+                className="px-4 py-2 bg-customPink text-white font-semibold rounded-lg shadow-md hover:bg-opacity-80 transition"
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Load More"}
+              </button>
+            </div>
           )}
         </div>
       )}

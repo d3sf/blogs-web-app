@@ -17,7 +17,7 @@ export async function GET(req: Request) {
         // Fetch the blogs from the database
         //@ts-expect-error
         const blogs = await Blog.find({},"title description author createdAt")
-            .populate("author", "name email image")
+            .populate("author", "name email image username")
             .skip(skip)
             .limit(limit)
             .sort({ createdAt: -1 }) // Sorting blogs by newest first

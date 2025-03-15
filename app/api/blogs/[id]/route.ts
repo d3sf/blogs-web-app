@@ -13,7 +13,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
         await connectToDB();
         //@ts-expect-error
-        const blog = await Blog.findById(id).populate("author", "name email image") ;
+        const blog = await Blog.findById(id).populate("author", "name email image username") ;
 
         if (!blog) {
             return NextResponse.json({ error: "Blog not found" }, { status: 404 });
@@ -80,6 +80,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         // Find the blog
         //@ts-expect-error
         const blog = await Blog.findById(id);
+
         if (!blog) {
             return NextResponse.json({ error: "Blog not found" }, { status: 404 });
         }

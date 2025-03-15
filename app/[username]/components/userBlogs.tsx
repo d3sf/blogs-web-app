@@ -100,13 +100,14 @@ const UserBlogs = () => {
                     <h2 className="text-xl font-bold hover:text-customPink mb-2">{blog.title}</h2>
                   </Link>
                   <p className="text-gray-600">{blog.description}...</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-sm text-gray-500 mt-2">
-                      <span className="flex gap-4 mt-3 mb-8">
+                  <div className="flex justify-between items-center p-4">
+                    <div className="text-sm text-gray-500 flex items-center gap-4 ">
+           
                         <span>By {blog?.author?.name}</span> •
                         <span className="font-mono">{formattedDate}</span>
-                      </span>
-                    </p>
+    
+                    </div>
+            
                     {isOwner && (
                       <button
                         onClick={(e) => {

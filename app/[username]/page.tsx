@@ -7,7 +7,6 @@ import AboutSection from "./components/AboutSection";
 
 import UserBlogs from "./components/userBlogs";
 
-
 const UserProfile = () => {
   const { username } = useParams();
   const [user, setUser] = useState(null);
@@ -20,7 +19,6 @@ const UserProfile = () => {
         if (!res.ok) throw new Error("User not found");
         const data = await res.json();
         setUser(data);
-
       } catch (error) {
         console.error(error);
       }
@@ -38,23 +36,25 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-4 space-y-4">
-      <div className=" border-white shadow-lg  rounded-lg
-      
-      ">
-        {/* Profile Header */}
+    <div className="w-full">
+      {/* Full-width Profile Header */}
+      <div className="max-w-5xl mx-auto border-white shadow-lg rounded-lg">
         <ProfileHeader user={user} setUser={setUser} />
       </div>
 
-      <div>
-        {/* About Section */}
-        {user.about && <AboutSection about={user.about} />}
+      {/* Main Content: About Section + Blogs */}
+      <div className="max-w-5xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* About Section (1/3 width on larger screens) */}
+        <div className="md:col-span-1">
+          {<AboutSection about={user.about} />}
+        </div>
+
+        {/* Blogs Section (2/3 width on larger screens) */}
+        <div className="md:col-span-2">
+          <UserBlogs />
+        </div>
       </div>
-      {/* <UserBlogContainer></UserBlogContainer> */}
-      <UserBlogs></UserBlogs>
-
     </div>
-
   );
 };
 
