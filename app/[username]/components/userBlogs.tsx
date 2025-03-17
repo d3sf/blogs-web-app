@@ -43,13 +43,18 @@ const UserBlogs = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/blogs/user/${userId}?page=${page}&limit=10`);
+      const res = await fetch(
+        `/api/blogs/user/${userId}?page=${page}&limit=10`
+      );
       if (!res.ok) throw new Error("Failed to fetch blogs");
       const data = await res.json();
       if (data.blogs.length === 0) {
         setHasMore(false);
       } else {
-        setBlogs((prev) => [...prev, ...data.blogs.filter((blog) => !prev.some((b) => b._id === blog._id))]);
+        setBlogs((prev) => [
+          ...prev,
+          ...data.blogs.filter((blog) => !prev.some((b) => b._id === blog._id)),
+        ]);
         setPage((prev) => prev + 1);
       }
     } catch {
@@ -90,24 +95,31 @@ const UserBlogs = () => {
         <>
           <div className="grid gap-6">
             {blogs.map((blog) => {
-              const isOwner = session?.user?.email && blog?.author?.email && session.user.email === blog.author.email;
+              const isOwner =
+                session?.user?.email &&
+                blog?.author?.email &&
+                session.user.email === blog.author.email;
               const formattedDate = new Date(blog.createdAt)
-                .toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" })
+                .toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                })
                 .replace(",", "");
               return (
                 <div key={blog._id} className="relative">
                   <Link href={`/blogs/${blog._id}`}>
-                    <h2 className="text-xl font-bold hover:text-customPink mb-2">{blog.title}</h2>
+                    <h2 className="text-xl font-bold hover:text-customPink mb-2">
+                      {blog.title}
+                    </h2>
                   </Link>
                   <p className="text-gray-600">{blog.description}...</p>
-                  <div className="flex justify-between items-center p-4">
+                  <div className="flex justify-between items-center py-4">
                     <div className="text-sm text-gray-500 flex items-center gap-4 ">
-           
-                        <span>By {blog?.author?.name}</span> •
-                        <span className="font-mono">{formattedDate}</span>
-    
+                      <span>By {blog?.author?.name}</span> •
+                      <span className="font-mono">{formattedDate}</span>
                     </div>
-            
+
                     {isOwner && (
                       <button
                         onClick={(e) => {
@@ -122,12 +134,18 @@ const UserBlogs = () => {
                       </button>
                     )}
                   </div>
-                  <HorizontalLine></HorizontalLine>
+                  <div className="mt-4">
+                    <HorizontalLine></HorizontalLine>
+                  </div>
                 </div>
               );
             })}
           </div>
-          <LoadMoreButton fetchBlogs={fetchBlogs} hasMore={hasMore} loading={loading} />
+          <LoadMoreButton
+            fetchBlogs={fetchBlogs}
+            hasMore={hasMore}
+            loading={loading}
+          />
         </>
       )}
     </div>

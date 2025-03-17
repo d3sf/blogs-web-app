@@ -19,7 +19,7 @@ export async function PUT(req: Request) {
         if (!name || name.trim() === "") {
             return NextResponse.json({ error: "Name is required" }, { status: 400 });
         }
-
+        //@ts-expect-error
         const updatedUser = await User.findOneAndUpdate(
             { email: session.user.email }, // Find user by email from session
             { name, about }, // Update name & about

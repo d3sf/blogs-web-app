@@ -52,7 +52,7 @@ const BlogsPage = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 md:p-10">
-      <h1 className="text-3xl font-bold text-center mb-6">Latest Blogs</h1>
+      {/* <h1 className="text-2xl font-bold text-center mb-6">Latest Blogs</h1> */}
 
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
@@ -115,10 +115,17 @@ const BlogsPage = () => {
           )}
 
           {!initialLoading && hasMore && (
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-left mt-8">
+              {/*  Load More Button with Background 
+              
               <button
                 onClick={fetchBlogs}
                 className="px-4 py-2 bg-customPink text-white font-semibold rounded-lg shadow-md hover:bg-opacity-80 transition"
+                disabled={loading}
+              > */}
+              <button
+                onClick={fetchBlogs}
+                className="px-4 py-2 text-md hover:text-customPink text-black font-semibold transition"
                 disabled={loading}
               >
                 {loading ? "Loading..." : "Load More"}

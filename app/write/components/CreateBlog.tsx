@@ -47,14 +47,14 @@ const CreateBlog = () => {
 
             // Show success alert
             toast.success("Blog Published Successfully", {
-                duration: 3000,
+                duration: 2000,
             })
             // window.alert("Blog published successfully!");
             // Redirect to home page
 
             setTimeout(() => {
                 router.push("/");
-            }, 2000); // Redirect after 2 seconds
+            }, 1000); // Redirect after 2 seconds
         } catch (error) {
             console.error("Error saving blog:", error);
             toast.warning("Failed to save Blog, something went wrong");
@@ -112,7 +112,7 @@ const CreateBlog = () => {
                 <button
                     onClick={handleSave}
                     disabled={loading}
-                    className="mt-4 bg-black text-white px-4 py-2 rounded"
+                    className="mt-4 mb-36 bg-black text-white px-4 py-2 rounded"
                 >
                     {loading ? "Saving..." : "Save Blog"}
                 </button>

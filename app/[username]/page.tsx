@@ -30,18 +30,19 @@ const UserProfile = () => {
   if (!user) {
     return (
       <div className="max-w-3xl mx-auto p-4 text-center">
-        <h2 className="text-xl font-semibold">User not Found</h2>
+        {/* <h2 className="text-xl font-semibold">User not Found</h2> */}
       </div>
     );
   }
 
   return (
+    
     <div className="w-full">
       {/* Full-width Profile Header */}
+      
       <div className="max-w-5xl mx-auto border-white shadow-lg rounded-lg">
         <ProfileHeader user={user} setUser={setUser} />
       </div>
-
       {/* Main Content: About Section + Blogs */}
       <div className="max-w-5xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* About Section (1/3 width on larger screens) */}

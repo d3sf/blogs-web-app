@@ -66,21 +66,40 @@ export const authOptions: NextAuthOptions = {
           //check if the user exists
           //@ts-expect-error
           let existingUser = await User.findOne({ email: user.email });
-          
+
           if (!existingUser) {
             // create and save user
-            // Upload Google profile image to Cloudinary
-            // const cloudinaryUrl = await imageUpload("profile_images", undefined, user.image);
+
+
+            const cloudinaryResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/uploadimage`, {
+              method: "POST",
+              body: JSON.stringify({
+                image: user.image, // Google profile image URL
+                folder: "blogs/profile_pictures",
+              }),
+              headers: { "Content-Type": "application/json" },
+            });
+            
+            // console.log("Cloudinary Response Status:", cloudinaryResponse.status);
+            // console.log("Cloudinary Response Headers:", cloudinaryResponse.headers);
+            const { url: cloudinaryUrl } = await cloudinaryResponse.json();
+            // console.log("Cloudinary Response Data:", cloudinaryUrl);
+            // console.log("Full Cloudinary Response:", cloudinaryUrl?.fullResponse);
+
             const username = await generateUsername(user.email);
             existingUser = new User({
               name: user.name,
               email: user.email,
-              image: user.image,
+              image: cloudinaryUrl,
               password: "",//no password for google users
               username: username,
             })
+            
             await existingUser.save();
           }
+          
+          user.id = existingUser.id; // Ensure NextAuth session gets user ID
+          user.image = existingUser.image; // Set correct image URL for session
         }
         return true;
       }

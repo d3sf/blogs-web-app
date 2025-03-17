@@ -1,97 +1,87 @@
-"use client"
+"use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
+import ChangeProfilePicModal from "./ChangeProfilePicModal";
 import EditProfileModal from "./EditProfileModal";
-
-import { Calendar } from 'lucide-react';
+import { Calendar } from "lucide-react";
 import { formattedMonthYear } from "@/app/components/utility/formattedTime";
 import { useSession } from "next-auth/react";
 
-
 const ProfileHeader = ({ user, setUser }) => {
+  const { data: session } = useSession();
+  const [isProfilePicModalOpen, setIsProfilePicModalOpen] = useState(false);
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
-    const {data:session} = useSession();//get the authenticated user
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    // const [isHovering, setIsHovering] = useState(false);
-    // const fileInputRef = useRef(null);
-    const date = formattedMonthYear(user.createdAt);
-    const isOwner = session?.user?.email === user.email;
-    // console.log(user)
+  const date = formattedMonthYear(user.createdAt);
+  const isOwner = session?.user?.email === user.email;
 
-    // const handleFileChange =async (event)=>{
-    //     const file = event.target.files[0];
-    //     if (!file) return;
+  return (
+    <div>
+      <div className="flex justify-between py-[32px] px-[12px]">
+        <div className="flex gap-6">
+          <div
+            className="relative w-28 h-28"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
+            {/* Profile Image */}
+            {/* {JSON.stringify(user.image)}
+            <br />
+            {JSON.stringify(session.user.image)} */}
+            <img
+              src={user?.image || "/images/defaultAvatar.png"}
+              alt={user?.name}
+              className="w-full h-full rounded-full border-4 border-gray-300 object-cover"
+            />
+            {isOwner && isHovering && (
+              <div
+                className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full cursor-pointer"
+                onClick={() => setIsProfilePicModalOpen(true)}
+              >
+                <span className="text-white text-sm">Edit</span>
+              </div>
+            )}
+          </div>
 
-    //     try {
-    //         const formData = new FormData();
-    //         formData.append("file", file);
-
-    //         // const response = await axios.post("/api/")
-    //     } catch (error) {
-            
-    //     }
-
-    // }
-
-    return (
-        <div>
-            <div className="flex justify-between py-[32px] px-[12px]">
-                <div className="flex gap-6">
-                    <div 
-                    // onMouseEnter={()=>{}}
-                    // onMouseLeave={()=>{}}
-                    >
-                        {/* ✅ Profile Image in Circle */}
-                        <img   
-                            src={user?.image || "/images/defaultAvatar.png"} // Use default if no image
-                            alt={user?.name}
-                            className="w-28 h-28 rounded-full border-4 border-gray-300 object-cover"
-                        />
-                    </div>
-                    <div className="mt-12">
-                        
-                        <div className="text-2xl font-bold">
-                            {user.name}
-                            {/* {
-                                name.toUpperCase()
-                            } */}
-                        </div>
-                        {/* <h2 className="text-gray-600 text-sm ml-1">
-                            @{user.username}
-                        </h2> */}
-                        <div className="text-gray-600 text-xs border border-gray-600 rounded-full mt-2  inline-flex items-start text-[10px] px-1 ">
-                            {/* {user.createdAt} */}
-                            <Calendar size={14} ></Calendar>
-                            <span>
-                                Joined {date}
-                            </span>
-
-                            {/* convert date format later */}
-                        </div>
-
-                    </div>
-                </div>
-              {
-                isOwner && (
-                    <div>
-                    <button
-                        className=" text-green-500 hover:text-green-600  px-4 py-2 rounded-md text-xs mt-20"
-                        onClick={() => setIsModalOpen(true)}
-                    >
-                        Edit Profile
-                    </button>
-                    {/* ✅ Render Modal when `isModalOpen` is true */}
-                    {isModalOpen && <EditProfileModal
-                        user={user}
-                        setUser={setUser}
-                        onClose={() => setIsModalOpen(false)} />}
-                </div>
-                )
-              }
+          <div className="mt-12">
+            <div className="text-2xl font-bold">{user.name}</div>
+            <div className="text-gray-600 text-xs border border-gray-600 rounded-full mt-2 inline-flex items-center text-[10px] px-1">
+              <Calendar size={14} />
+              <span>Joined {date}</span>
             </div>
-
+          </div>
         </div>
-    );
+
+        {isOwner && (
+          <div>
+            <button
+              className="text-green-500 hover:text-green-600 px-4 py-2 rounded-md text-xs mt-20"
+              onClick={() => setIsEditProfileModalOpen(true)}
+            >
+              Edit Profile
+            </button>
+          </div>
+        )}
+      </div>
+
+      {isProfilePicModalOpen && (
+        <ChangeProfilePicModal
+          user={user}
+          setUser={setUser}
+          onClose={() => setIsProfilePicModalOpen(false)}
+        />
+      )}
+
+      {isEditProfileModalOpen && (
+        <EditProfileModal
+          user={user}
+          setUser={setUser}
+          onClose={() => setIsEditProfileModalOpen(false)}
+        />
+      )}
+    </div>
+  );
 };
 
 export default ProfileHeader;
